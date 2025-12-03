@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///C:/Users/Admin/Downloads/VDC_EHS_VP_Dashboard_Fixed.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDC EHS Analytics | Executive Dashboard</title>
+    <link href="./VDC EHS Analytics Platform _ Executive Dashboard v1.0_files/css2" rel="stylesheet">
+    <script src="./VDC EHS Analytics Platform _ Executive Dashboard v1.0_files/chart.umd.min.js.download"></script>
+    <style>
+        :root {
+            --vdc-primary: #1B365D;
+            --vdc-teal: #0D7377;
+            --vdc-accent: #00B4D8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --purple: #8B5CF6;
+            --pink: #EC4899;
+            --cyan: #06B6D4;
+            --dark-bg: #0A0F1C;
+            --card-bg: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a1a2e 50%, #0d1421 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Header */
+        .header {
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--vdc-teal), var(--vdc-primary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .logo-text h1 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 4px;
+            background: rgba(255,255,255,0.03);
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .nav-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--vdc-teal), var(--vdc-primary));
+            color: #fff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .time-filter {
+            display: flex;
+            gap: 2px;
+            background: rgba(255,255,255,0.03);
+            padding: 3px;
+            border-radius: 6px;
+        }
+
+        .time-btn {
+            padding: 5px 10px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.4);
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .time-btn.active { background: var(--vdc-teal); color: #fff; }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Main */
+        .main { max-width: 1600px; margin: 0 auto; padding: 20px; }
+
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Vision Zero Banner */
+        .vision-banner {
+            background: linear-gradient(135deg, rgba(13, 115, 119, 0.2), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(13, 115, 119, 0.3);
+            border-radius: 16px;
+            padding: 20px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .vision-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .vision-title span { color: var(--vdc-teal); }
+
+        .vision-subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .vision-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .vision-stat { text-align: center; }
+
+        .vision-stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .vision-stat-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* KPI Card */
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+
+        .kpi-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .kpi-trend.up { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .kpi-trend.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+
+        /* Chart Card */
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .chart-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .chart-badge {
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 220px;
+        }
+
+        .chart-container.small { height: 180px; }
+
+        /* Recent Items */
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .item-row:hover { background: rgba(255,255,255,0.04); }
+        .item-row.critical { border-left-color: var(--danger); }
+        .item-row.warning { border-left-color: var(--warning); }
+        .item-row.info { border-left-color: var(--cyan); }
+
+        .item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .item-content { flex: 1; }
+        .item-title { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+        .item-meta { font-size: 10px; color: rgba(255,255,255,0.4); }
+        .item-time { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+        /* AI Insights */
+        .ai-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.08));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .ai-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .ai-title { font-size: 13px; font-weight: 600; }
+        .ai-subtitle { font-size: 10px; color: rgba(255,255,255,0.5); }
+
+        .insight-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .insight-icon { font-size: 16px; }
+        .insight-text { font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+
+        .confidence-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--purple);
+            margin-left: 4px;
+        }
+
+        /* Gauge */
+        .gauge-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .gauge-svg { width: 160px; height: 90px; }
+        .gauge-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 14; stroke-linecap: round; }
+        .gauge-fill { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease; }
+        .gauge-text { font-size: 28px; font-weight: 800; fill: #fff; text-anchor: middle; }
+        .gauge-label { font-size: 10px; fill: rgba(255,255,255,0.5); text-anchor: middle; }
+
+        .risk-badge {
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        /* Region Card */
+        .region-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .region-row:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(4px);
+        }
+
+        .region-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .region-info { flex: 1; }
+        .region-name { font-size: 13px; font-weight: 600; }
+        .region-sites { font-size: 10px; color: rgba(255,255,255,0.5); }
+        .region-score { font-size: 20px; font-weight: 700; }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table tr:hover { background: rgba(255,255,255,0.02); }
+
+        .status-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .status-tag.critical { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .status-tag.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-tag.success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-tag.info { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .vision-banner { flex-direction: column; gap: 20px; text-align: center; }
+            .vision-stats { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo-icon">VDC</div>
+            <div class="logo-text">
+                <h1>EHS Analytics Platform</h1>
+                <p>Microsoft Fabric • AI/ML • Real-Time</p>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <button class="nav-btn active" onclick="switchView(&#39;overview&#39;)">📊 Overview</button>
+            <button class="nav-btn" onclick="switchView(&#39;incidents&#39;)">🚨 Incidents</button>
+            <button class="nav-btn" onclick="switchView(&#39;analytics&#39;)">📈 Analytics</button>
+            <button class="nav-btn" onclick="switchView(&#39;regions&#39;)">🌍 Regions</button>
+            <button class="nav-btn" onclick="switchView(&#39;aiml&#39;)">🤖 AI/ML</button>
+        </nav>
+
+        <div class="header-right">
+            <div class="time-filter">
+                <button class="time-btn">24H</button>
+                <button class="time-btn">7D</button>
+                <button class="time-btn active">30D</button>
+                <button class="time-btn">YTD</button>
+            </div>
+            <div class="live-badge">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- OVERVIEW -->
+        <section class="view active" id="overview">
+            <!-- Vision Zero Banner -->
+            <div class="vision-banner">
+                <div>
+                    <div class="vision-title">🎯 Vision <span>Zero</span> Progress</div>
+                    <div class="vision-subtitle">Committed to zero workplace incidents across all data centers</div>
+                </div>
+                <div class="vision-stats">
+                    <div class="vision-stat">
+                        <div class="vision-stat-value" style="color: var(--success);">847</div>
+                        <div class="vision-stat-label">Days Without Lost Time</div>
+                    </div>
+                    <div class="vision-stat">
+                        <div class="vision-stat-value" style="color: var(--vdc-accent);">99.7%</div>
+                        <div class="vision-stat-label">Safety Compliance</div>
+                    </div>
+                    <div class="vision-stat">
+                        <div class="vision-stat-value" style="color: var(--purple);">94%</div>
+                        <div class="vision-stat-label">CA Closure Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="grid">
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, #3B82F6, #2563EB);">📊</div>
+                    <div class="kpi-value" style="color: #3B82F6;">0.42</div>
+                    <div class="kpi-label">Total Recordable Incident Rate (TRIR)</div>
+                    <div class="kpi-trend up">↓ 18% vs Last Year</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--success), #059669);">✅</div>
+                    <div class="kpi-value" style="color: var(--success);">0.08</div>
+                    <div class="kpi-label">Lost Time Incident Rate (LTIR)</div>
+                    <div class="kpi-trend up">↓ 24% vs Last Year</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--warning), #D97706);">📋</div>
+                    <div class="kpi-value" style="color: var(--warning);">87</div>
+                    <div class="kpi-label">Open Corrective Actions</div>
+                    <div class="kpi-trend warning">→ 12 Due This Week</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--purple), #7C3AED);">🎯</div>
+                    <div class="kpi-value" style="color: var(--purple);">92.4%</div>
+                    <div class="kpi-label">Audit Compliance Score</div>
+                    <div class="kpi-trend up">↑ 3.2% vs Q3</div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid-2">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">📈 Incident Trends (12 Months)</div>
+                        <span class="chart-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">↓ 23% YoY</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🔍 Incidents by Category</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                    <div class="legend" id="categoryLegend"><div class="legend-item"><div class="legend-dot" style="background:#3B82F6"></div>Slip/Trip/Fall: 34</div><div class="legend-item"><div class="legend-dot" style="background:#10B981"></div>Struck By Object: 22</div><div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>Ergonomic: 18</div><div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div>Electrical: 12</div><div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div>Chemical: 8</div></div>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="grid-3">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">⏱️ CA Aging Distribution</div>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="agingChart" width="471" height="180" style="display: block; box-sizing: border-box; height: 180px; width: 471px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🌍 Regional Safety Scores</div>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="regionalChart" width="471" height="180" style="display: block; box-sizing: border-box; height: 180px; width: 471px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🤖 AI Risk Score</div>
+                        <span class="chart-badge" style="background: rgba(139, 92, 246, 0.15); color: var(--purple);">ML Model</span>
+                    </div>
+                    <div class="gauge-wrap">
+                        <svg class="gauge-svg" viewBox="0 0 160 90">
+                            <path class="gauge-bg" d="M 15 80 A 65 65 0 0 1 145 80"></path>
+                            <path class="gauge-fill" id="gaugeFill" d="M 15 80 A 65 65 0 0 1 145 80" stroke="url(#gaugeGrad)" stroke-dasharray="204" stroke-dashoffset="204" style="stroke-dashoffset: 146.88;"></path>
+                            <defs>
+                                <lineargradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#10B981"></stop>
+                                    <stop offset="50%" stop-color="#F59E0B"></stop>
+                                    <stop offset="100%" stop-color="#EF4444"></stop>
+                                </lineargradient>
+                            </defs>
+                            <text class="gauge-text" x="80" y="65" id="gaugeValue">28</text>
+                            <text class="gauge-label" x="80" y="82">Enterprise Risk Index</text>
+                        </svg>
+                        <div class="risk-badge">LOW RISK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Cards -->
+            <div class="grid-2">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🚨 Recent Incidents</div>
+                        <span class="chart-badge" style="background: rgba(239, 68, 68, 0.15); color: var(--danger);">Last 7 Days</span>
+                    </div>
+                    <div id="recentIncidents">
+                    <div class="item-row info">
+                        <div class="item-icon" style="background:rgba(255,255,255,0.05);">🔵</div>
+                        <div class="item-content">
+                            <div class="item-title">Slip/Trip/Fall - Phoenix AZ1</div>
+                            <div class="item-meta">INC-0892 • Minor • Open</div>
+                        </div>
+                        <div class="item-time">Nov 25</div>
+                    </div>
+                    <div class="item-row info">
+                        <div class="item-icon" style="background:rgba(255,255,255,0.05);">🔵</div>
+                        <div class="item-content">
+                            <div class="item-title">Ergonomic - Frankfurt DE1</div>
+                            <div class="item-meta">INC-0891 • Minor • In Progress</div>
+                        </div>
+                        <div class="item-time">Nov 24</div>
+                    </div>
+                    <div class="item-row warning">
+                        <div class="item-icon" style="background:rgba(255,255,255,0.05);">🟠</div>
+                        <div class="item-content">
+                            <div class="item-title">Struck By - Tokyo JP1</div>
+                            <div class="item-meta">INC-0890 • Moderate • Open</div>
+                        </div>
+                        <div class="item-time">Nov 23</div>
+                    </div>
+                    <div class="item-row critical">
+                        <div class="item-icon" style="background:rgba(255,255,255,0.05);">🔴</div>
+                        <div class="item-content">
+                            <div class="item-title">Electrical - São Paulo BR1</div>
+                            <div class="item-meta">INC-0889 • Serious • In Progress</div>
+                        </div>
+                        <div class="item-time">Nov 22</div>
+                    </div>
+                    <div class="item-row info">
+                        <div class="item-icon" style="background:rgba(255,255,255,0.05);">🔵</div>
+                        <div class="item-content">
+                            <div class="item-title">Near Miss - Ashburn VA1</div>
+                            <div class="item-meta">INC-0888 • Low • Closed</div>
+                        </div>
+                        <div class="item-time">Nov 21</div>
+                    </div></div>
+                </div>
+                <div class="chart-card ai-card">
+                    <div class="ai-header">
+                        <div class="ai-icon">🧠</div>
+                        <div>
+                            <div class="ai-title">AI-Powered Insights</div>
+                            <div class="ai-subtitle">Generated by Incident Risk Score Model</div>
+                        </div>
+                    </div>
+                    <div id="aiInsights">
+                    <div class="insight-item">
+                        <div class="insight-icon">⚠️</div>
+                        <div class="insight-text">São Paulo BR1 shows 23% higher risk than regional average due to increased contractor activity.<span class="confidence-badge">85%</span></div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-icon">📈</div>
+                        <div class="insight-text">Near-miss reporting increased 18% this quarter - indicates improving safety culture.<span class="confidence-badge">92%</span></div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-icon">🎯</div>
+                        <div class="insight-text">Sites with &gt;95% training compliance show 34% fewer incidents.<span class="confidence-badge">88%</span></div>
+                    </div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INCIDENTS -->
+        <section class="view" id="incidents">
+            <div class="grid">
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--danger), #DC2626);">🚨</div>
+                    <div class="kpi-value" style="color: var(--danger);">23</div>
+                    <div class="kpi-label">Total Incidents (MTD)</div>
+                    <div class="kpi-trend up">↓ 15% vs Last Month</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--warning), #D97706);">⚠️</div>
+                    <div class="kpi-value" style="color: var(--warning);">156</div>
+                    <div class="kpi-label">Near Misses (MTD)</div>
+                    <div class="kpi-trend up">↑ Good Reporting</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--success), #059669);">✅</div>
+                    <div class="kpi-value" style="color: var(--success);">0</div>
+                    <div class="kpi-label">Lost Time Injuries (MTD)</div>
+                    <div class="kpi-trend up">✓ Vision Zero Target</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--cyan), #0891B2);">⏱️</div>
+                    <div class="kpi-value" style="color: var(--cyan);">4.2</div>
+                    <div class="kpi-label">Avg Days to Close</div>
+                    <div class="kpi-trend up">↓ 1.3 days improved</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🔥 Severity Distribution</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="severityChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🏢 Incidents by Site (YTD)</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="siteChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">📋 Incident Register (Last 30 Days)</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Site</th>
+                            <th>Type</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incidentTableBody"><tr>
+                    <td>INC-0892</td><td>Nov 25</td><td>Phoenix AZ1</td><td>Slip/Trip/Fall</td>
+                    <td><span class="status-tag info">Minor</span></td>
+                    <td><span class="status-tag critical">Open</span></td>
+                </tr><tr>
+                    <td>INC-0891</td><td>Nov 24</td><td>Frankfurt DE1</td><td>Ergonomic</td>
+                    <td><span class="status-tag info">Minor</span></td>
+                    <td><span class="status-tag warning">In Progress</span></td>
+                </tr><tr>
+                    <td>INC-0890</td><td>Nov 23</td><td>Tokyo JP1</td><td>Struck By</td>
+                    <td><span class="status-tag warning">Moderate</span></td>
+                    <td><span class="status-tag critical">Open</span></td>
+                </tr><tr>
+                    <td>INC-0889</td><td>Nov 22</td><td>São Paulo BR1</td><td>Electrical</td>
+                    <td><span class="status-tag critical">Serious</span></td>
+                    <td><span class="status-tag warning">In Progress</span></td>
+                </tr><tr>
+                    <td>INC-0888</td><td>Nov 21</td><td>Ashburn VA1</td><td>Near Miss</td>
+                    <td><span class="status-tag info">Low</span></td>
+                    <td><span class="status-tag success">Closed</span></td>
+                </tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ANALYTICS -->
+        <section class="view" id="analytics">
+            <div class="chart-card" style="margin-bottom: 20px;">
+                <div class="chart-header">
+                    <div class="chart-title">📊 TRIR Trend with Target</div>
+                </div>
+                <div class="chart-container" style="height: 280px;">
+                    <canvas id="trirTrendChart" width="1522" height="280" style="display: block; box-sizing: border-box; height: 280px; width: 1522px;"></canvas>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">👷 Contractor TRIR</div>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="contractorChart" width="471" height="180" style="display: block; box-sizing: border-box; height: 180px; width: 471px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">📚 Training Compliance</div>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="trainingChart" width="471" height="180" style="display: block; box-sizing: border-box; height: 180px; width: 471px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">⏰ CA SLA Performance</div>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="slaChart" width="471" height="180" style="display: block; box-sizing: border-box; height: 180px; width: 471px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REGIONS -->
+        <section class="view" id="regions">
+            <div class="grid-2">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🏆 Regional Performance Ranking</div>
+                    </div>
+                    <div id="regionRankings">
+                    <div class="region-row">
+                        <div class="region-icon" style="background:#3B82F6;">🥇</div>
+                        <div class="region-info">
+                            <div class="region-name">North America</div>
+                            <div class="region-sites">15 Sites</div>
+                        </div>
+                        <div class="region-score" style="color:#3B82F6;">94.2%</div>
+                    </div>
+                    <div class="region-row">
+                        <div class="region-icon" style="background:#10B981;">🥈</div>
+                        <div class="region-info">
+                            <div class="region-name">EMEA</div>
+                            <div class="region-sites">12 Sites</div>
+                        </div>
+                        <div class="region-score" style="color:#10B981;">92.8%</div>
+                    </div>
+                    <div class="region-row">
+                        <div class="region-icon" style="background:#F59E0B;">🥉</div>
+                        <div class="region-info">
+                            <div class="region-name">Asia Pacific</div>
+                            <div class="region-sites">10 Sites</div>
+                        </div>
+                        <div class="region-score" style="color:#F59E0B;">91.5%</div>
+                    </div>
+                    <div class="region-row">
+                        <div class="region-icon" style="background:#8B5CF6;">🏆</div>
+                        <div class="region-info">
+                            <div class="region-name">Latin America</div>
+                            <div class="region-sites">8 Sites</div>
+                        </div>
+                        <div class="region-score" style="color:#8B5CF6;">89.7%</div>
+                    </div></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">📊 Safety Score Comparison</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="regionCompareChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">🏢 Site Performance Summary</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Site</th>
+                            <th>Region</th>
+                            <th>Score</th>
+                            <th>Incidents (YTD)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="siteTableBody"><tr>
+                    <td><strong>Ashburn VA1</strong></td><td>NA</td>
+                    <td><strong style="color:#10B981">96.5%</strong></td>
+                    <td>2</td>
+                    <td><span class="status-tag success">Excellent</span></td>
+                </tr><tr>
+                    <td><strong>Frankfurt DE1</strong></td><td>EMEA</td>
+                    <td><strong style="color:#10B981">94.3%</strong></td>
+                    <td>3</td>
+                    <td><span class="status-tag success">Excellent</span></td>
+                </tr><tr>
+                    <td><strong>Phoenix AZ1</strong></td><td>NA</td>
+                    <td><strong style="color:#10B981">93.2%</strong></td>
+                    <td>4</td>
+                    <td><span class="status-tag success">Excellent</span></td>
+                </tr><tr>
+                    <td><strong>Tokyo JP1</strong></td><td>APAC</td>
+                    <td><strong style="color:#F59E0B">91.2%</strong></td>
+                    <td>5</td>
+                    <td><span class="status-tag warning">Good</span></td>
+                </tr><tr>
+                    <td><strong>Singapore SG1</strong></td><td>APAC</td>
+                    <td><strong style="color:#F59E0B">90.8%</strong></td>
+                    <td>6</td>
+                    <td><span class="status-tag warning">Good</span></td>
+                </tr><tr>
+                    <td><strong>São Paulo BR1</strong></td><td>LATAM</td>
+                    <td><strong style="color:#EF4444">88.5%</strong></td>
+                    <td>7</td>
+                    <td><span class="status-tag critical">Needs Attention</span></td>
+                </tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- AI/ML -->
+        <section class="view" id="aiml">
+            <div class="grid">
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--purple), #7C3AED);">🎯</div>
+                    <div class="kpi-value" style="color: var(--purple);">72%</div>
+                    <div class="kpi-label">Model Precision</div>
+                    <div class="kpi-trend up">↑ Above 70% Target</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--pink), #DB2777);">📊</div>
+                    <div class="kpi-value" style="color: var(--pink);">68%</div>
+                    <div class="kpi-label">Model Recall</div>
+                    <div class="kpi-trend warning">→ Optimizing</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--cyan), #0891B2);">🔢</div>
+                    <div class="kpi-value" style="color: var(--cyan);">18</div>
+                    <div class="kpi-label">Features Used</div>
+                    <div class="kpi-trend up">✓ Engineered</div>
+                </div>
+                <div class="card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, var(--success), #059669);">⚡</div>
+                    <div class="kpi-value" style="color: var(--success);">45</div>
+                    <div class="kpi-label">Sites Scored Daily</div>
+                    <div class="kpi-trend up">✓ Batch Pipeline</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">🔬 Feature Importance (Top 10)</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="featureChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">📊 Site Risk Distribution</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="riskDistChart" width="734" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 734px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">⚠️ High Risk Sites - Predicted Next 30 Days</div>
+                    <span class="chart-badge" style="background: rgba(239, 68, 68, 0.15); color: var(--danger);">Action Required</span>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Site</th>
+                            <th>Region</th>
+                            <th>Risk Score</th>
+                            <th>Primary Factor</th>
+                            <th>Recommended Action</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody id="riskTableBody"><tr>
+                    <td><strong>São Paulo BR1</strong></td><td>LATAM</td>
+                    <td><strong style="color:#EF4444;">78</strong></td>
+                    <td>High contractor activity</td>
+                    <td><span class="status-tag warning">Increase supervision</span></td>
+                    <td>85%</td>
+                </tr><tr>
+                    <td><strong>Singapore SG1</strong></td><td>APAC</td>
+                    <td><strong style="color:#EF4444;">72</strong></td>
+                    <td>Overdue CAs</td>
+                    <td><span class="status-tag warning">Expedite closures</span></td>
+                    <td>82%</td>
+                </tr><tr>
+                    <td><strong>Tokyo JP1</strong></td><td>APAC</td>
+                    <td><strong style="color:#EF4444;">68</strong></td>
+                    <td>Recent incident pattern</td>
+                    <td><span class="status-tag warning">Root cause analysis</span></td>
+                    <td>79%</td>
+                </tr></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        VDC EHS Analytics Platform | Prepared by EVOCS | Microsoft Fabric • AI/ML Powered • Data refreshed every 15 minutes
+    </footer>
+
+    <script>
+        // Chart.js defaults
+        Chart.defaults.color = 'rgba(255,255,255,0.6)';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+        Chart.defaults.font.family = 'Inter';
+        Chart.defaults.font.size = 11;
+
+        // Data
+        const DATA = {
+            months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            incidents: [28, 25, 32, 22, 19, 24, 21, 18, 20, 17, 23, 15],
+            nearMiss: [145, 152, 168, 142, 158, 165, 171, 159, 163, 156, 148, 132],
+            trir: [0.52, 0.48, 0.55, 0.44, 0.41, 0.46, 0.43, 0.39, 0.42, 0.38, 0.42, 0.35],
+            target: [0.45, 0.44, 0.43, 0.42, 0.41, 0.40, 0.39, 0.38, 0.37, 0.36, 0.35, 0.34],
+            categories: [
+                { name: 'Slip/Trip/Fall', value: 34, color: '#3B82F6' },
+                { name: 'Struck By Object', value: 22, color: '#10B981' },
+                { name: 'Ergonomic', value: 18, color: '#F59E0B' },
+                { name: 'Electrical', value: 12, color: '#EF4444' },
+                { name: 'Chemical', value: 8, color: '#8B5CF6' }
+            ],
+            regions: [
+                { name: 'North America', sites: 15, score: 94.2, color: '#3B82F6' },
+                { name: 'EMEA', sites: 12, score: 92.8, color: '#10B981' },
+                { name: 'Asia Pacific', sites: 10, score: 91.5, color: '#F59E0B' },
+                { name: 'Latin America', sites: 8, score: 89.7, color: '#8B5CF6' }
+            ],
+            sites: [
+                { name: 'Ashburn VA1', region: 'NA', score: 96.5, incidents: 2 },
+                { name: 'Frankfurt DE1', region: 'EMEA', score: 94.3, incidents: 3 },
+                { name: 'Phoenix AZ1', region: 'NA', score: 93.2, incidents: 4 },
+                { name: 'Tokyo JP1', region: 'APAC', score: 91.2, incidents: 5 },
+                { name: 'Singapore SG1', region: 'APAC', score: 90.8, incidents: 6 },
+                { name: 'São Paulo BR1', region: 'LATAM', score: 88.5, incidents: 7 }
+            ],
+            incidents_list: [
+                { id: 'INC-0892', date: 'Nov 25', site: 'Phoenix AZ1', type: 'Slip/Trip/Fall', severity: 'Minor', status: 'Open' },
+                { id: 'INC-0891', date: 'Nov 24', site: 'Frankfurt DE1', type: 'Ergonomic', severity: 'Minor', status: 'In Progress' },
+                { id: 'INC-0890', date: 'Nov 23', site: 'Tokyo JP1', type: 'Struck By', severity: 'Moderate', status: 'Open' },
+                { id: 'INC-0889', date: 'Nov 22', site: 'São Paulo BR1', type: 'Electrical', severity: 'Serious', status: 'In Progress' },
+                { id: 'INC-0888', date: 'Nov 21', site: 'Ashburn VA1', type: 'Near Miss', severity: 'Low', status: 'Closed' }
+            ],
+            insights: [
+                { icon: '⚠️', text: 'São Paulo BR1 shows 23% higher risk than regional average due to increased contractor activity.', conf: 85 },
+                { icon: '📈', text: 'Near-miss reporting increased 18% this quarter - indicates improving safety culture.', conf: 92 },
+                { icon: '🎯', text: 'Sites with >95% training compliance show 34% fewer incidents.', conf: 88 }
+            ],
+            highRisk: [
+                { site: 'São Paulo BR1', region: 'LATAM', score: 78, factor: 'High contractor activity', action: 'Increase supervision', conf: 85 },
+                { site: 'Singapore SG1', region: 'APAC', score: 72, factor: 'Overdue CAs', action: 'Expedite closures', conf: 82 },
+                { site: 'Tokyo JP1', region: 'APAC', score: 68, factor: 'Recent incident pattern', action: 'Root cause analysis', conf: 79 }
+            ],
+            features: [
+                { name: 'Historical Incidents', value: 18 },
+                { name: 'Contractor Hours', value: 15 },
+                { name: 'Open CA Count', value: 14 },
+                { name: 'Days Since Audit', value: 12 },
+                { name: 'Weather Risk', value: 10 },
+                { name: 'Training Compliance', value: 9 },
+                { name: 'Site Age', value: 7 },
+                { name: 'Employee Turnover', value: 6 },
+                { name: 'Near Miss Trend', value: 5 },
+                { name: 'CA Closure Rate', value: 4 }
+            ]
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initOverviewCharts();
+            populateOverview();
+            animateGauge(28);
+        });
+
+        // View switching
+        function switchView(viewId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(viewId));
+            });
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+
+            // Init view-specific charts
+            if (viewId === 'incidents') initIncidentsCharts();
+            if (viewId === 'analytics') initAnalyticsCharts();
+            if (viewId === 'regions') initRegionsView();
+            if (viewId === 'aiml') initAIMLCharts();
+        }
+
+        // Overview Charts
+        function initOverviewCharts() {
+            // Trend Chart
+            new Chart(document.getElementById('trendChart'), {
+                type: 'line',
+                data: {
+                    labels: DATA.months,
+                    datasets: [{
+                        label: 'Incidents',
+                        data: DATA.incidents,
+                        borderColor: '#EF4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Near Misses',
+                        data: DATA.nearMiss,
+                        borderColor: '#F59E0B',
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    scales: {
+                        y: { beginAtZero: true },
+                        y1: { position: 'right', grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+
+            // Category Chart
+            new Chart(document.getElementById('categoryChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: DATA.categories.map(c => c.name),
+                    datasets: [{
+                        data: DATA.categories.map(c => c.value),
+                        backgroundColor: DATA.categories.map(c => c.color),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Legend
+            const legend = document.getElementById('categoryLegend');
+            DATA.categories.forEach(c => {
+                legend.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div>${c.name}: ${c.value}</div>`;
+            });
+
+            // Aging Chart
+            new Chart(document.getElementById('agingChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['0-7d', '8-14d', '15-30d', '31-60d', '>60d'],
+                    datasets: [{
+                        data: [32, 24, 18, 9, 4],
+                        backgroundColor: ['#10B981', '#22D3EE', '#F59E0B', '#F97316', '#EF4444'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Regional Chart
+            new Chart(document.getElementById('regionalChart'), {
+                type: 'bar',
+                data: {
+                    labels: DATA.regions.map(r => r.name),
+                    datasets: [{
+                        data: DATA.regions.map(r => r.score),
+                        backgroundColor: DATA.regions.map(r => r.color),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { min: 85, max: 100 } }
+                }
+            });
+        }
+
+        function populateOverview() {
+            // Recent Incidents
+            const incContainer = document.getElementById('recentIncidents');
+            DATA.incidents_list.forEach(inc => {
+                const cls = inc.severity === 'Serious' ? 'critical' : inc.severity === 'Moderate' ? 'warning' : 'info';
+                incContainer.innerHTML += `
+                    <div class="item-row ${cls}">
+                        <div class="item-icon" style="background:rgba(255,255,255,0.05);">${cls === 'critical' ? '🔴' : cls === 'warning' ? '🟠' : '🔵'}</div>
+                        <div class="item-content">
+                            <div class="item-title">${inc.type} - ${inc.site}</div>
+                            <div class="item-meta">${inc.id} • ${inc.severity} • ${inc.status}</div>
+                        </div>
+                        <div class="item-time">${inc.date}</div>
+                    </div>`;
+            });
+
+            // AI Insights
+            const aiContainer = document.getElementById('aiInsights');
+            DATA.insights.forEach(ins => {
+                aiContainer.innerHTML += `
+                    <div class="insight-item">
+                        <div class="insight-icon">${ins.icon}</div>
+                        <div class="insight-text">${ins.text}<span class="confidence-badge">${ins.conf}%</span></div>
+                    </div>`;
+            });
+        }
+
+        function animateGauge(value) {
+            const fill = document.getElementById('gaugeFill');
+            const text = document.getElementById('gaugeValue');
+            const maxOffset = 204;
+            const targetOffset = maxOffset - (value / 100 * maxOffset);
+            
+            setTimeout(() => { fill.style.strokeDashoffset = targetOffset; }, 300);
+            
+            let current = 0;
+            const timer = setInterval(() => {
+                current += 1;
+                if (current >= value) { clearInterval(timer); current = value; }
+                text.textContent = current;
+            }, 40);
+        }
+
+        // Incidents Charts
+        function initIncidentsCharts() {
+            if (Chart.getChart('severityChart')) return;
+
+            new Chart(document.getElementById('severityChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Minor', 'Moderate', 'Serious', 'Critical'],
+                    datasets: [{
+                        data: [45, 28, 8, 2],
+                        backgroundColor: ['#10B981', '#F59E0B', '#F97316', '#EF4444']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '50%' }
+            });
+
+            new Chart(document.getElementById('siteChart'), {
+                type: 'bar',
+                data: {
+                    labels: DATA.sites.map(s => s.name),
+                    datasets: [{
+                        data: DATA.sites.map(s => s.incidents),
+                        backgroundColor: '#3B82F6',
+                        borderRadius: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            // Table
+            const tbody = document.getElementById('incidentTableBody');
+            DATA.incidents_list.forEach(inc => {
+                const sevCls = inc.severity === 'Serious' ? 'critical' : inc.severity === 'Moderate' ? 'warning' : 'info';
+                const stsCls = inc.status === 'Open' ? 'critical' : inc.status === 'In Progress' ? 'warning' : 'success';
+                tbody.innerHTML += `<tr>
+                    <td>${inc.id}</td><td>${inc.date}</td><td>${inc.site}</td><td>${inc.type}</td>
+                    <td><span class="status-tag ${sevCls}">${inc.severity}</span></td>
+                    <td><span class="status-tag ${stsCls}">${inc.status}</span></td>
+                </tr>`;
+            });
+        }
+
+        // Analytics Charts
+        function initAnalyticsCharts() {
+            if (Chart.getChart('trirTrendChart')) return;
+
+            new Chart(document.getElementById('trirTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: DATA.months,
+                    datasets: [{
+                        label: 'Actual TRIR',
+                        data: DATA.trir,
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Target',
+                        data: DATA.target,
+                        borderColor: '#10B981',
+                        borderDash: [5, 5],
+                        tension: 0.4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            new Chart(document.getElementById('contractorChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon'],
+                    datasets: [{
+                        data: [0.44, 0.26, 0.94, 0.19, 0.00],
+                        backgroundColor: ['#F59E0B', '#10B981', '#EF4444', '#10B981', '#10B981'],
+                        borderRadius: 4
+                    }]
+                },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            new Chart(document.getElementById('trainingChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Overdue'],
+                    datasets: [{ data: [87, 8, 5], backgroundColor: ['#10B981', '#F59E0B', '#EF4444'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '65%' }
+            });
+
+            new Chart(document.getElementById('slaChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['On Time', 'At Risk', 'Overdue'],
+                    datasets: [{ data: [78, 14, 8], backgroundColor: ['#10B981', '#F59E0B', '#EF4444'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '65%' }
+            });
+        }
+
+        // Regions View
+        function initRegionsView() {
+            if (document.getElementById('regionRankings').children.length > 0) return;
+
+            const container = document.getElementById('regionRankings');
+            DATA.regions.sort((a, b) => b.score - a.score).forEach((r, i) => {
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🏆';
+                container.innerHTML += `
+                    <div class="region-row">
+                        <div class="region-icon" style="background:${r.color};">${medal}</div>
+                        <div class="region-info">
+                            <div class="region-name">${r.name}</div>
+                            <div class="region-sites">${r.sites} Sites</div>
+                        </div>
+                        <div class="region-score" style="color:${r.color};">${r.score}%</div>
+                    </div>`;
+            });
+
+            new Chart(document.getElementById('regionCompareChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Safety Score', 'Training', 'CA Closure', 'Audit Score', 'Near Miss Rate'],
+                    datasets: [{
+                        label: 'North America',
+                        data: [94, 96, 92, 93, 88],
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)'
+                    }, {
+                        label: 'Latin America',
+                        data: [90, 85, 82, 87, 91],
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 70, max: 100 } } }
+            });
+
+            const siteTable = document.getElementById('siteTableBody');
+            DATA.sites.forEach(s => {
+                const status = s.score >= 93 ? 'success' : s.score >= 90 ? 'warning' : 'critical';
+                siteTable.innerHTML += `<tr>
+                    <td><strong>${s.name}</strong></td><td>${s.region}</td>
+                    <td><strong style="color:${status === 'success' ? '#10B981' : status === 'warning' ? '#F59E0B' : '#EF4444'}">${s.score}%</strong></td>
+                    <td>${s.incidents}</td>
+                    <td><span class="status-tag ${status}">${status === 'success' ? 'Excellent' : status === 'warning' ? 'Good' : 'Needs Attention'}</span></td>
+                </tr>`;
+            });
+        }
+
+        // AI/ML Charts
+        function initAIMLCharts() {
+            if (Chart.getChart('featureChart')) return;
+
+            new Chart(document.getElementById('featureChart'), {
+                type: 'bar',
+                data: {
+                    labels: DATA.features.map(f => f.name),
+                    datasets: [{
+                        data: DATA.features.map(f => f.value),
+                        backgroundColor: '#8B5CF6',
+                        borderRadius: 4
+                    }]
+                },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            new Chart(document.getElementById('riskDistChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Low (0-30)', 'Medium (31-60)', 'High (61-80)', 'Critical (81+)'],
+                    datasets: [{
+                        data: [28, 12, 4, 1],
+                        backgroundColor: ['#10B981', '#F59E0B', '#F97316', '#EF4444'],
+                        borderRadius: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const riskTable = document.getElementById('riskTableBody');
+            DATA.highRisk.forEach(r => {
+                riskTable.innerHTML += `<tr>
+                    <td><strong>${r.site}</strong></td><td>${r.region}</td>
+                    <td><strong style="color:#EF4444;">${r.score}</strong></td>
+                    <td>${r.factor}</td>
+                    <td><span class="status-tag warning">${r.action}</span></td>
+                    <td>${r.conf}%</td>
+                </tr>`;
+            });
+        }
+    </script>
+
+
+</body></html>
